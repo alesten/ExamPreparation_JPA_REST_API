@@ -1,6 +1,8 @@
 package db;
 
+import entity.City;
 import entity.Country;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
@@ -46,5 +48,24 @@ public class dbFacade {
             em.close();
         }
         return countries;
+    }
+    
+    public List<City> getCitiesByCountryCode(String code){
+        EntityManager em = emf.createEntityManager();
+
+        List<City> cities;
+
+        try {
+            em.getTransaction().begin();
+            
+            Country country = (Country)em.createNamedQuery("Country.findByCode").setParameter("code", code).getSingleResult();
+            
+            cities = new ArrayList(country.getCityCollection());
+            
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return cities;
     }
 }
