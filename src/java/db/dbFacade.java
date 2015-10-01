@@ -68,4 +68,22 @@ public class dbFacade {
         }
         return cities;
     }
+    
+    public City addCityToCountry(City city, String code){
+        EntityManager em = emf.createEntityManager();
+
+        try {
+            em.getTransaction().begin();
+            
+            Country country = (Country)em.createNamedQuery("Country.findByCode").setParameter("code", code).getSingleResult();
+            city.setCountryCode(country);
+            em.persist(city);
+            country.addCity(city);
+            
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return city;
+    }
 }

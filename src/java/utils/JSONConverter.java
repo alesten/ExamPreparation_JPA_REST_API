@@ -2,10 +2,9 @@ package utils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
+import com.google.gson.JsonParser;
 import entity.City;
 import entity.Country;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,8 +35,19 @@ public class JSONConverter {
         for (City city : cities) {
             JsonObject obj = new JsonObject();
             obj.addProperty("name", city.getName());
+            obj.addProperty("district", city.getDistrict());
             list.add(obj);
         }
         return gson.toJson(list);
+    }
+    
+    public static City GetCityFromJSON(String json){
+        JsonObject obj = new JsonParser().parse(json).getAsJsonObject();
+
+        City city = new City();
+        city.setName(obj.get("name").getAsString());
+        city.setDistrict(obj.get("district").getAsString());
+        
+        return city;
     }
 }

@@ -225,7 +225,7 @@ public class Country implements Serializable {
     public void setCountryLanguageCollection(Collection<CountryLanguage> countryLanguageCollection) {
         this.countryLanguageCollection = countryLanguageCollection;
     }
-
+    
     public City getCapital() {
         return capital;
     }
@@ -241,6 +241,10 @@ public class Country implements Serializable {
 
     public void setCityCollection(Collection<City> cityCollection) {
         this.cityCollection = cityCollection;
+    }
+    
+    public void addCity(City city){
+        cityCollection.add(city);
     }
 
     @Override
